@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns		= "http://www.w3.org/ns/widgets"
+	xmlns:gap	= "http://phonegap.com/ns/1.0"
+	id		= "br.gov.ac.fedd"
+	version 	= "1.0.0">
+
+	<name>Feed Agencia AC</name>
+
+	<description>
+		Feed de notícias da Agencia de Noticias do Acre
+	</description>
+
+	<author href="http://github.com/rubersonramon7"
+		email="rubersonramon7@gmail.com">
+		Ruberson Ramon
+	</author>
+
+	<gap:platforms>
+		<gap:platform name="ios" />
+		<gap:platform name="android" />
+		<gap:platform name="webos" />
+		<gap:platform name="symbian" />
+		<gap:platform name="blackberry"  project="widgets"/>
+		<gap:platform name="winphone" />
+
+	</gap:platforms>
+
+	<icon src="blurry.png" gap:role="default" />
+
+    <gap:splash src="weirdo.png" />
+
+	<feature name="http://api.phonegap.com/1.0/geolocation"/>
+	<feature name="http://api.phonegap.com/1.0/network"/>
+
+	<!-- sample preference specification -->
+	<!-- <preference name="autorotate" value="false" readonly="true"/> -->
+</widget>
