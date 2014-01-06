@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<head>		
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-        <link href="assets/style.css" rel="stylesheet" media="screen">
+		
+		<link rel="stylesheet" href="assets/javascripts/jquery.mobile-1.0rc1/jquery.mobile-1.0rc1.min.css" />
+		<script src="assets/javascripts/jquery-1.6.4.min.js"></script>
+		<script src="assets/javascripts/jquery.mobile-1.0rc1/jquery.mobile-1.0rc1.min.js"></script>
+		<script type="text/javascript" src="https://www.google.com/jsapi?key=ABQIAAAAyJyU2pP8HEAQFu-dU3akzBR7d_GtPeo448_JGrfvnaGEhmVSWRTZdP9sQjlaQOQLsACfWtQEy9jF4A"></script>
+		
+		<link href="assets/style.css" rel="stylesheet" media="screen">
         <link href="assets/apprise/apprise.min.css" rel="stylesheet" />
 
-        <link href="assets/bootstrap/bootstrap.min.css" rel="stylesheet" media="screen" title="main">
-        <link href="assets/bootstrap/bootstrap-responsive.min.css" rel="stylesheet">
-        <link href="assets/font-awesome/font-awesome.min.css" rel="stylesheet">
-        <link href="assets/bootstrap-slider/bootstrap-slider.min.css" rel="stylesheet" />
-        
-        <script type="text/javascript" src="assets/other/jquery.min.js"></script>
-        <script type="text/javascript" src="assets/other/blockui.min.js"></script>
-        <script type="text/javascript" src="assets/other/i18next.min.js"></script>
-        <script type="text/javascript" src="assets/other/segment-display.min.js"></script>
-        <script type="text/javascript" src="assets/other/bootstrap-tabdrop.min.js"></script>
-        
-        <script type="text/javascript" src="assets/apprise/apprise.min.js"></script>
-        
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="assets/ln.js"></script>
-        <script type="text/javascript" src="assets/app.js"></script>
-
-        <script type="text/javascript" src="assets/bootstrap/bootstrap.min.js"></script>
-        <script type="text/javascript" src="assets/bootstrap-slider/modernizr.min.js"></script>
-        <script type="text/javascript" src="assets/bootstrap-slider/bootstrap-slider.min.js"></script>
        
         <script type="text/javascript">            
             $.blockUI.defaults.css.top = '45%';
@@ -37,26 +22,149 @@
             $.blockUI.defaults.message = '<div style="margin: 17px; vertical-align: middle; display: inline-block"><i class="icon-cog icon-spin icon-4x"></i></div>';
             
             $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);            
-        </script>		
+        </script>
         <title>RSS Agência de Notícias do Acre</title>
-    </head>
-    <body>    		
-		<div>
-			<script id="feed-1386606060627317" type="text/javascript" src="http://rss.bloople.net/?url=http%3A%2F%2Fwww.agencia.ac.gov.br%2Findex.php%2Fcomponent%2Ffpss%2Fmodule%2F25.feed%3Ftype%3Drss&showtitle=false&showicon=true&showempty=true&forceutf8=true&fixbugs=true&nocache=true&type=js&id=1386606060627317"></script>
-		</div>
-        
-        <div id="blockui-animated-content" style="display: none; padding: 15px">            
-            <div style="margin-right: 7px; vertical-align: middle; display: inline-block">                
-                <i class="icon-cog icon-spin icon-3x"></i>                    
-            </div>            
-        </div>		
-        <script type="text/javascript">
+	</head>
+	
+	<body id="page_body">
+		<!-- begin home -->
+		<section id="home" data-role="page">
+			<img src="logo.png" style="width: 100%; height: auto">
+			<header data-role="header">
+				<center>
+					<h3>Últimas Notícias</h3>
+				</center>
+			</header>
+			<div style="width:100%; margin-left:10px; margin-right:10px;">
+				<input type="search" name="search-mini" id="search-mini" value="" data-mini="true" placeholder="Pesquisar "/>			
+			</div>
+			<div class="content" data-role="content" >
+				<ul data-role="listview">
+				</ul>
+			</div>
+			<footer data-role="footer">
+				<center>
+					<h5>2013  Governo do Estado do Acre</h5>
+				</center>
+			</footer>
+		</section>
+		<!-- end home -->
+		
+		<script type="text/javascript">
+			google.load("feeds", "1");
+			function initialize() {
+				// Get feed
+				var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/noticias/feed");
+				//var feed = new google.feeds.Feed("http://g1.globo.com/dynamo/rss2.xml");				
+				// Set the number of entries to get.
+				feed.setNumEntries(100);
+				// Load the feed.
+				feed.load(function(result) {				
+					// Get the content of page.
+					var $page = $("#home");					
+					// Delete the existing posts, if any.
+					$page.find(".content").empty();					
+					// Verify error.
+					if (result.error) {
+						alert("Nenhum post encontrado.");
+					} else {					
+						// Create a new list of posts.
+						$page.find(".content").html("<ul></ul>");		
+						// Get list of posts.
+						$list = $page.find(".content ul");						
+						// Get the content of feed.	
+						var container = document.getElementById("feed");						
+						// Through the list of posts.
+						for (var count = 0; count < result.feed.entries.length; count++) {	
+							var indice = count;				
+							// Get entry of feed.
+							var entry = result.feed.entries[count];				
+							// Get title of post.
+							var title = entry.title;
+							var pubDate = entry.publishedDate;	
+							pubDate = pubDate.toString();
+							
+							var tam = title.length;
+							if (tam != 9 && title[2] != '/' && title[5] != '/') {					
+								// Get link of post.
+								var link = entry.link;								
+								// Build HTML that contains the desired information.
+								var strLink = '<li><a href="javascript:create_page('+ indice +',\''+ title +'\');">';
+								strLink += title;
+								strLink += '</a><p class="ui-li-desc" style="margin-left:15px;">Publicado em: '+ pubDate.substring(5,25) +'</p>'
+								strLink += '</li>\n';							
+								// Make it into a jQuery object.
+								var item = $(strLink);							
+								// Append it to our list.
+								$list.append(item);
+							} else {
+								indice++;
+							}
+						}
+						// Set list in listview.
+						$list.listview();
+					}
+				});
+			}
+			google.setOnLoadCallback(initialize);
+
+			function create_page(page_id, title) {
+				// Get title.
+				var titlePost = title;				
+				// Get feed.
+				var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/noticias/feed");				
+				//var feed = new google.feeds.Feed("http://g1.globo.com/dynamo/rss2.xml");
+				
+				// Set the number of entries to get.
+				feed.setNumEntries(100);				
+				// Load the feed.
+				feed.load(function(result) {				
+					// Get the content of page.
+					var $page = $("#home");					
+					// Delete the existing posts, if any.
+					$page.find(".content").empty();					
+					// Verify error.
+					if (result.error) {
+						alert("Post não encontrado.");
+					} else {
+						// Through the list of posts.
+						for (var count = 0; count < result.feed.entries.length; count++) {						
+							// Verify if title is equal.
+							if (titlePost == result.feed.entries[count].title){							
+								// Get entry of feed.
+								var entry = result.feed.entries[page_id];								
+								// Get title.
+								var title = entry.title;
+								// Get post.
+								var post = entry.content;								
+								var strPost = '<section id="page_' + page_id + '" data-role="page">';
+								strPost += '<img src="logo.png" style="width: 100%; height: auto">'
+								strPost += '<header data-role="header">';
+								strPost += '<a href="#home" data-icon="back" onclick="initialize();">Voltar</a>';
+								strPost += '<center><h3>Últimas Notícias</h3></center></header>';
+								strPost += '<div class="contentPost" data-role="content">';
+								strPost += '<h3>' + title + '</h3>'
+								strPost += post + '</div>';	
+								strPost += '<footer data-role="footer">';
+								strPost += '<center><h5>2013  Governo do Estado do Acre</h5></center></footer></section>';						
+								$('#page_body').append(strPost);								
+								// initialize the new page 
+								$.mobile.initializePage();
+								// navigate to the new page
+								$.mobile.changePage("#page_" + page_id, "slide", true, false);
+							}
+						}
+					}
+				});
+			}
+		</script>
+		
+		<script type="text/javascript">
         /*<![CDATA[*/
             /**
              * jQuery
              */
-            $(function($)
-            {
+            $(function($) {
                 /**
                  * Device info dialog box.
                  * 
@@ -69,7 +177,6 @@
                         'UUID: <strong>' + device.uuid + '</strong>.<br />' + 
                         'OS: <strong>' + device.platform + ' ' + device.version + '</strong>.<br />' +
                         'Screen: <strong>' + screen.availHeight + 'x' + screen.availWidth + '</strong>.';
-
                     apprise(info, {});
                 });
                 
@@ -103,24 +210,18 @@
                         stylesheet = item.substring(1, item.indexOf('(') - 1),
                         title = item.substring(item.indexOf('(') + 1, item.indexOf(')'));
                         
-                    $('link[title="main"]').attr('href', $(this).attr('rel'));
-                    
+                    $('link[title="main"]').attr('href', $(this).attr('rel'));                    
                     $('header#overview').find('h1').html(title);
-                    $('header#overview').find('code').html(stylesheet);
-                    
+                    $('header#overview').find('code').html(stylesheet);                    
                     $('.change-style-menu-item').css('font-weight', 'normal').find('i').removeClass('icon-arrow-right');
-                    $(this).css('font-weight', 'bold').find('i').addClass('icon-arrow-right');
-                    
+                    $(this).css('font-weight', 'bold').find('i').addClass('icon-arrow-right');                    
                     if(typeof(theClock) !== 'undefined')
                     {
                         var colorOff = (title === 'Cyborg' || title === 'Slate' || title === 'Superhero') ? 'rgba(27, 65, 5, 0.3)' : 'rgba(200, 200, 200, 0.3)';
-                        
                         theClock.colorOff = theDisplay.colorOff = colorOff;
                         theClock.colorOn = theDisplay.colorOn = $('h1').css('color');
-                    }
-                    
-                    app.updatePhonegapTab();
-                    
+                    }                    
+                    app.updatePhonegapTab();                    
                     app.writeEventLog('Changing style to "' + title + '" (' + stylesheet + ').');
                 });
                 
@@ -150,10 +251,8 @@
                 
                 $('body').on('click', '.change-language-menu-item', function()
                 {
-                    var language = $(this).attr('data-language');
-                    
-                    ln.setLanguage(language);
-                    
+                    var language = $(this).attr('data-language');                    
+                    ln.setLanguage(language);                    
                     app.writeEventLog('Changing language to: ' + ln.language.international + ' (' + ln.language.local + ').');
                 });
                 
@@ -165,6 +264,6 @@
                 $('.nav-tabs').tabdrop();
             });
         /*]]>*/
-        </script>        
-    </body>    
+        </script>   
+	</body>
 </html>
