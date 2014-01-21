@@ -5,14 +5,14 @@
 	xmlns="http://www.w3.org/ns/widgets"
 	xmlns:gap="http://phonegap.com/ns/1.0"
 	id="ruberson.maia"
-	version="1.5">
+	version="1.7.1">
 
 	<name>RSS Agência</name>
 
 	<description>Feed de Notícias da Agência de Notícias do Acre</description>
 
 	<author
-		href="https://github.com/rubersonramon7/feed.git"
+		href="https://github.com/rubersonramon7/"
 		email="rubersonramon7@gmail.com">
 	</author>
 
