@@ -14,16 +14,34 @@
         <link href="assets/apprise/apprise.min.css" rel="stylesheet" />
 
        
-        <script type="text/javascript">            
+        <script type="text/javascript">    
+			
             $.blockUI.defaults.css.top = '45%';
             $.blockUI.defaults.css.border = 'none';
             $.blockUI.defaults.css.background = 'none';
             $.blockUI.defaults.overlayCSS.opacity = 0.5;
             $.blockUI.defaults.message = '<div style="margin: 17px; vertical-align: middle; display: inline-block"><i class="icon-cog icon-spin icon-4x"></i></div>';
-            
+			
             $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);            
         </script>
         <title>RSS Agência de Notícias do Acre</title>
+		<script>
+			function redimensionarImagens(id) {
+				//cria um array contendo as tags que quero altera a propriedade
+				var tags = new Array('img', 'embed');
+				for (tagx in tags) {
+					var tag = document.getElementById(id).getElementsByTagName(tags[tagx]);
+					for (var i = 0; i < tag.length; i++) {
+						tag[i].style.width="100%";
+						tag[i].style.height="auto";
+						// coloca no pai e no avo do item a propriedade 100%
+						var pai = tag[i].parentNode;
+						pai.style.width="100%";
+						pai.parentNode.style.width="100%";
+					}
+				}
+			}
+		</script>
 	</head>
 	
 	<body id="page_body">
@@ -35,16 +53,13 @@
 					<h3>Últimas Notícias</h3>
 				</center>
 			</header>
-			<div style="width:100%; margin-left:10px; margin-right:10px;">
-				<input type="search" name="search-mini" id="search-mini" value="" data-mini="true" placeholder="Pesquisar "/>			
-			</div>
 			<div class="content" data-role="content" >
 				<ul data-role="listview">
 				</ul>
 			</div>
 			<footer data-role="footer">
 				<center>
-					<h5>2013  Governo do Estado do Acre</h5>
+					<h5>Governo do Estado do Acre</h5>
 				</center>
 			</footer>
 		</section>
@@ -53,9 +68,9 @@
 		<script type="text/javascript">
 			google.load("feeds", "1");
 			function initialize() {
-				// Get feed
+				// Get feed.
+				var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/index.php?option=com_ninjarsssyndicator&feed_id=8&format=raw");				
 				var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/noticias/feed");
-				//var feed = new google.feeds.Feed("http://g1.globo.com/dynamo/rss2.xml");				
 				// Set the number of entries to get.
 				feed.setNumEntries(100);
 				// Load the feed.
@@ -75,31 +90,22 @@
 						// Get the content of feed.	
 						var container = document.getElementById("feed");						
 						// Through the list of posts.
-						for (var count = 0; count < result.feed.entries.length; count++) {	
-							var indice = count;				
+						for (var count = 0; count < result.feed.entries.length; count++) {				
 							// Get entry of feed.
 							var entry = result.feed.entries[count];				
 							// Get title of post.
-							var title = entry.title;
-							var pubDate = entry.publishedDate;	
-							pubDate = pubDate.toString();
-							
-							var tam = title.length;
-							if (tam != 9 && title[2] != '/' && title[5] != '/') {					
-								// Get link of post.
-								var link = entry.link;								
-								// Build HTML that contains the desired information.
-								var strLink = '<li><a href="javascript:create_page('+ indice +',\''+ title +'\');">';
-								strLink += title;
-								strLink += '</a><p class="ui-li-desc" style="margin-left:15px;">Publicado em: '+ pubDate.substring(5,25) +'</p>'
-								strLink += '</li>\n';							
-								// Make it into a jQuery object.
-								var item = $(strLink);							
-								// Append it to our list.
-								$list.append(item);
-							} else {
-								indice++;
-							}
+							var title = entry.title;						
+							// Get link of post.
+							var link = entry.link;								
+							// Build HTML that contains the desired information.
+							var strLink = '<li><a href="javascript:create_page(' + count + ',\'' + title + '\');">';
+							strLink += title;
+							//strLink += '<h5>Publicado em: '+pubdate+'</h5>';
+							strLink += '</a></li>\n';							
+							// Make it into a jQuery object.
+							var item = $(strLink);							
+							// Append it to our list.
+							$list.append(item);
 						}
 						// Set list in listview.
 						$list.listview();
@@ -112,9 +118,9 @@
 				// Get title.
 				var titlePost = title;				
 				// Get feed.
-				var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/noticias/feed");				
-				//var feed = new google.feeds.Feed("http://g1.globo.com/dynamo/rss2.xml");
-				
+				//var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/index.php/component/fpss/module/25.feed?type=rss");
+				//var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/index.php?option=com_ninjarsssyndicator&feed_id=8&format=raw");
+				var feed = new google.feeds.Feed("http://www.agencia.ac.gov.br/noticias/feed");
 				// Set the number of entries to get.
 				feed.setNumEntries(100);				
 				// Load the feed.
@@ -128,30 +134,34 @@
 						alert("Post não encontrado.");
 					} else {
 						// Through the list of posts.
+						
 						for (var count = 0; count < result.feed.entries.length; count++) {						
 							// Verify if title is equal.
 							if (titlePost == result.feed.entries[count].title){							
 								// Get entry of feed.
 								var entry = result.feed.entries[page_id];								
 								// Get title.
-								var title = entry.title;
+								var title = entry.title;		
 								// Get post.
 								var post = entry.content;								
 								var strPost = '<section id="page_' + page_id + '" data-role="page">';
-								strPost += '<img src="logo.png" style="width: 100%; height: auto">'
+								strPost += '<img src="logo.png" style="width: 100%; height: auto">';
 								strPost += '<header data-role="header">';
 								strPost += '<a href="#home" data-icon="back" onclick="initialize();">Voltar</a>';
 								strPost += '<center><h3>Últimas Notícias</h3></center></header>';
 								strPost += '<div class="contentPost" data-role="content">';
-								strPost += '<h3>' + title + '</h3>'
-								strPost += post + '</div>';	
-								strPost += '<footer data-role="footer">';
-								strPost += '<center><h5>2013  Governo do Estado do Acre</h5></center></footer></section>';						
+								strPost += '<h3>' + title + '</h3>';
+								strPost += '<div id="conteudo_pagina_' + page_id + '">';
+								strPost += post + '</div></div>';	
+			
+								strPost += '<footer data-role="footer">';											
+								strPost += '<center><h5>Governo do Estado do Acre</h5></center></footer></section>';
 								$('#page_body').append(strPost);								
 								// initialize the new page 
 								$.mobile.initializePage();
 								// navigate to the new page
 								$.mobile.changePage("#page_" + page_id, "slide", true, false);
+								redimensionarImagens('conteudo_pagina_' + page_id);
 							}
 						}
 					}
