@@ -7,38 +7,37 @@
 	id="pl.acrid.demo.bootstrap"
 	version="1.7.0">
 
-	<name>Demo Bootstrap</name>
+	<name>RSS Agência</name>
 
-	<description>acrid.pl Demo Bootstrap</description>
+	<description>Feed de Notícias da Agência de Notícias do Acre</description>
 
 	<author
-		href="http://www.acrid.pl/"
-		email="info@acrid.pl">
-		acrid.pl
+		href="https://github.com/rubersonramon7/feed/"
+		email="rubersonramon7@gmail.com">
 	</author>
 
 	<gap:platforms>
-		<gap:platform name="android" minVersion="2.2" />
+		<gap:platform name="android" 	minVersion="2.2" />
 		<gap:platform name="webos" />
 		<gap:platform name="symbian.wrt" />
 		<gap:platform name="blackberry" project="widgets" />
 	</gap:platforms>
 	
-    <preference name="phonegap-version"     value="2.9.0" />
-    <preference name="orientation"          value="default" />
-    <preference name="target-device"        value="universal" />
-    <preference name="fullscreen"           value="false" />
+    	<preference name="phonegap-version"     value="2.9.0" />
+    	<preference name="orientation"          value="default" />
+    	<preference name="target-device"        value="universal" />
+    	<preference name="fullscreen"           value="false" />
 	<preference name="autorotate"           value="false" readonly="true" />
     
-	<preference name="loadUrlTimeoutValue" value="60000" />
-	<preference name="AutoHideSplashScreen" value="false" />
+	<preference name="loadUrlTimeoutValue"	  	 value="60000" />
+	<preference name="AutoHideSplashScreen" 	 value="false" />
 	<preference name="OpenAllWhitelistURLsInWebView" value="No" />
     
-    <access origin="*" subdomains="true" />
+    	<access origin="*" subdomains="true" />
 
 	<icon src="icon.png" gap:role="default" />
 
-    <gap:splash src="splash.png" />
+    	<gap:splash src="splash.png" />
     
 	<feature name="http://api.phonegap.com/1.0/battery"/>
 	<feature name="http://api.phonegap.com/1.0/media"/>
