@@ -4,16 +4,17 @@
 <widget
 	xmlns="http://www.w3.org/ns/widgets"
 	xmlns:gap="http://phonegap.com/ns/1.0"
-	id="ruberson.maia"
-	version="1.7.1">
+	id="pl.acrid.demo.bootstrap"
+	version="1.7.0">
 
-	<name>RSS Agência</name>
+	<name>Demo Bootstrap</name>
 
-	<description>Feed de Notícias da Agência de Notícias do Acre</description>
+	<description>acrid.pl Demo Bootstrap</description>
 
 	<author
-		href="https://github.com/rubersonramon7/"
-		email="rubersonramon7@gmail.com">
+		href="http://www.acrid.pl/"
+		email="info@acrid.pl">
+		acrid.pl
 	</author>
 
 	<gap:platforms>
@@ -23,15 +24,13 @@
 		<gap:platform name="blackberry" project="widgets" />
 	</gap:platforms>
 	
-    <preference name="phonegap-version" value="2.9.0" />
-    <preference name="orientation" value="default" />
-    <preference name="target-device" value="universal" />
-    <preference name="fullscreen" value="false" />
-	<preference name="autorotate" value="false" readonly="true" />
+    <preference name="phonegap-version"     value="2.9.0" />
+    <preference name="orientation"          value="default" />
+    <preference name="target-device"        value="universal" />
+    <preference name="fullscreen"           value="false" />
+	<preference name="autorotate"           value="false" readonly="true" />
     
-	<!-- loadUrlTioneoutValue define um segundo tempo de 60 para completar a comunicação.  -->
 	<preference name="loadUrlTimeoutValue" value="60000" />
-	
 	<preference name="AutoHideSplashScreen" value="false" />
 	<preference name="OpenAllWhitelistURLsInWebView" value="No" />
     

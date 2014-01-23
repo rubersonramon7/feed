@@ -12,10 +12,8 @@
 		
 		<link href="assets/style.css" rel="stylesheet" media="screen">
         <link href="assets/apprise/apprise.min.css" rel="stylesheet" />
-
        
-        <script type="text/javascript">    
-			
+        <script type="text/javascript">			
             $.blockUI.defaults.css.top = '45%';
             $.blockUI.defaults.css.border = 'none';
             $.blockUI.defaults.css.background = 'none';
@@ -41,10 +39,21 @@
 					}
 				}
 			}
-		</script>
+			
+			function onLoad() { 				
+				document.addEventListener("backbutton", function(e) { 
+															if($.mobile.activePage.is('#home')) { 
+																e.preventDefault(); 
+																navigator.app.exitApp(); 
+															} else { 
+																navigator.app.backHistory() 
+															} 
+														}, false); 
+			}
+		</script> 
 	</head>
 	
-	<body id="page_body">
+	<body id="page_body" onload="onLoad()">
 		<!-- begin home -->
 		<section id="home" data-role="page">
 			<img src="logo.png" style="width: 100%; height: auto">
@@ -133,8 +142,7 @@
 					if (result.error) {
 						alert("Post não encontrado.");
 					} else {
-						// Through the list of posts.
-						
+						// Through the list of posts.						
 						for (var count = 0; count < result.feed.entries.length; count++) {						
 							// Verify if title is equal.
 							if (titlePost == result.feed.entries[count].title){							
@@ -144,10 +152,9 @@
 								var title = entry.title;		
 								// Get post.
 								var post = entry.content;								
-								var strPost = '<section id="page_' + page_id + '" data-role="page">';
+								var strPost = '<section id="page_' + page_id + '" data-role="page" onload="onLoad()">';
 								strPost += '<img src="logo.png" style="width: 100%; height: auto">';
 								strPost += '<header data-role="header">';
-								strPost += '<a href="#home" data-icon="back" onclick="initialize();">Voltar</a>';
 								strPost += '<center><h3>Últimas Notícias</h3></center></header>';
 								strPost += '<div class="contentPost" data-role="content">';
 								strPost += '<h3>' + title + '</h3>';
